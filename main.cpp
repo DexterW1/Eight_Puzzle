@@ -88,6 +88,35 @@ void init_default_puzzle(){
         cout<<"Error Not a valid number \n";
     }
 }
+void user_input_puzzle(){
+    string puzzle_row_one, puzzle_row_two,puzzle_row_three;
+    cin.ignore();
+    cout<<"Enter the first row: ";
+    getline(cin,puzzle_row_one);
+    cout<<endl;
+    cout<<"Enter the second row: ";
+    getline(cin,puzzle_row_two);
+    cout<<endl;
+    cout<<"Enter the three row: ";
+    getline(cin,puzzle_row_three);
+    cout<<endl;
+    for(int i=0; i<N;i++){
+        for(int j=0;j<N;j++){
+            if(i==0) {
+                remove(puzzle_row_one.begin(),puzzle_row_one.end(),' ');
+                user_puzzle[i][j] = puzzle_row_one[j] - '0';
+            }
+            else if(i==1){
+                remove(puzzle_row_two.begin(),puzzle_row_two.end(),' ');
+                user_puzzle[i][j] = puzzle_row_two[j] - '0';
+            }
+            else if(i==2){
+                remove(puzzle_row_three.begin(),puzzle_row_three.end(),' ');
+                user_puzzle[i][j] = puzzle_row_three[j] - '0';
+            }
+        }
+    }
+}
 int main() {
     int puzzle_mode =0;
     string puzzle_row_one, puzzle_row_two,puzzle_row_three;
@@ -98,32 +127,7 @@ int main() {
     }
     if(puzzle_mode==2){
         print_CreateOwn();
-        cin.ignore();
-        cout<<"Enter the first row: ";
-        getline(cin,puzzle_row_one);
-        cout<<endl;
-        cout<<"Enter the second row: ";
-        getline(cin,puzzle_row_two);
-        cout<<endl;
-        cout<<"Enter the three row: ";
-        getline(cin,puzzle_row_three);
-        cout<<endl;
-        for(int i=0; i<N;i++){
-            for(int j=0;j<N;j++){
-                if(i==0) {
-                    remove(puzzle_row_one.begin(),puzzle_row_one.end(),' ');
-                    user_puzzle[i][j] = puzzle_row_one[j] - '0';
-                }
-                else if(i==1){
-                    remove(puzzle_row_two.begin(),puzzle_row_two.end(),' ');
-                    user_puzzle[i][j] = puzzle_row_two[j] - '0';
-                }
-                else if(i==2){
-                    remove(puzzle_row_three.begin(),puzzle_row_three.end(),' ');
-                    user_puzzle[i][j] = puzzle_row_three[j] - '0';
-                }
-            }
-        }
+        user_input_puzzle();
     }
     print_Puzzle(user_puzzle);
 }
