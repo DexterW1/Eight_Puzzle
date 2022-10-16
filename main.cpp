@@ -62,6 +62,7 @@ void print_Puzzle(int puzzle[N][N]){
         cout<<endl;
     }
 }
+void general_search(int puzzle[N][N],int heuristic){}; //work on
 void init_default_puzzle(){
     int choice;
     cout<<"You wish to use a default puzzle. Please enter a desired difficulty on a scale from 0 to 5."<<endl;
@@ -115,6 +116,20 @@ void user_input_puzzle(){
                 user_puzzle[i][j] = puzzle_row_three[j] - '0';
             }
         }
+    }
+}
+void select_and_init_algo(){
+    int choice=0;
+    print_SelectAlgo();
+    cin>>choice;
+    if(choice == 1){
+        general_search(user_puzzle,0);
+    }
+    else if(choice == 2){
+        general_search(user_puzzle,1);
+    }
+    else if(choice == 3){
+        general_search(user_puzzle,2);
     }
 }
 int main() {
