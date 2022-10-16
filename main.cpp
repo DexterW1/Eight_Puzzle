@@ -1,0 +1,80 @@
+#include <iostream>
+#include "bits/stdc++.h"
+using namespace std;
+const int N=3;
+int trivial [N][N]= {{1,2,3},
+                     {4,5,6},
+                     {7,8,0}};
+
+int veryEasy[N][N]={{1,2,3},
+                    {4,5,6},
+                    {7,0,8}};
+
+int easy[N][N]{{1,2,0},
+               {4,5,3},
+               {7,8,6}};
+
+int doable[N][N]{{0,1,2},
+                 {4,5,3},
+                 {7,8,6}};
+
+int oh_boy[N][N]{{8,7,1},
+                 {6,0,2},
+                 {5,4,3}};
+
+int eight_goal_state[N][N]{{1,2,3},
+                           {4,5,6},
+                           {7,8,0}};
+
+void print_intro(){
+    cout<<"Welcome to my 8-Puzzle Solver. Type '1'to use a default puzzle, or '2' to create your own."<<endl;
+}
+void print_CreateOwn(){
+    cout<<"Enter your puzzle, using a zero to represent a blank. Please only enter\nvalid 8-puzzles. Enter the puzzle demilimiting the numbers  with a space. Type\n"
+          "RETURN only when finished."<<endl;
+}
+void print_SelectAlgo(){
+    cout<<"Select Algorithm. (1) for Uniform Cost Search, (2) for the Misplaced Tile Heuristic, or (3) the Manhattan Distance Heuristic."<<endl;
+}
+void print_Puzzle(int puzzle[N][N]){
+    for(int i=0; i<N;i++){
+        for(int j=0; j<N;j++){
+            if(j==0){
+                cout<<"[";
+            }
+            cout<<puzzle[i][j];
+            if(j==2){
+                cout<<"]";
+            }
+            else{
+                cout<<",";
+            }
+        }
+        cout<<endl;
+    }
+}
+int main() {
+    int user_puzzle[N][N];
+    int puzzle_mode =0;
+    string puzzle_row_one, puzzle_row_two,puzzle_row_three;
+    print_intro();
+    cin>>puzzle_mode;
+    if(puzzle_mode==1){
+
+    }
+    if(puzzle_mode==2){
+        print_CreateOwn();
+        cout<<"Enter the first row: ";
+        cin>>puzzle_row_one;
+        cout<<endl;
+        cout<<"Enter the second row: ";
+        cin>>puzzle_row_two;
+        cout<<endl;
+        cout<<"Enter the three row: ";
+        cin>>puzzle_row_three;
+        cout<<endl;
+
+    }
+}
+//How to copy array to another
+//copy(&trivial[0][0],&trivial[0][0]+ N*N,&user_puzzle[0][0]);
