@@ -1,5 +1,6 @@
 #include <iostream>
 #include "bits/stdc++.h"
+#include <algorithm>
 using namespace std;
 const int N=3;
 int trivial [N][N]= {{1,2,3},
@@ -64,17 +65,34 @@ int main() {
     }
     if(puzzle_mode==2){
         print_CreateOwn();
+        cin.ignore();
         cout<<"Enter the first row: ";
-        cin>>puzzle_row_one;
+        getline(cin,puzzle_row_one);
         cout<<endl;
         cout<<"Enter the second row: ";
-        cin>>puzzle_row_two;
+        getline(cin,puzzle_row_two);
         cout<<endl;
         cout<<"Enter the three row: ";
-        cin>>puzzle_row_three;
+        getline(cin,puzzle_row_three);
         cout<<endl;
-
+        for(int i=0; i<N;i++){
+            for(int j=0;j<N;j++){
+                if(i==0) {
+                    remove(puzzle_row_one.begin(),puzzle_row_one.end(),' ');
+                    user_puzzle[i][j] = puzzle_row_one[j] - '0';
+                }
+                else if(i==1){
+                    remove(puzzle_row_two.begin(),puzzle_row_two.end(),' ');
+                    user_puzzle[i][j] = puzzle_row_two[j] - '0';
+                }
+                else if(i==2){
+                    remove(puzzle_row_three.begin(),puzzle_row_three.end(),' ');
+                    user_puzzle[i][j] = puzzle_row_three[j] - '0';
+                }
+            }
+        }
     }
+    print_Puzzle(user_puzzle);
 }
 //How to copy array to another
 //copy(&trivial[0][0],&trivial[0][0]+ N*N,&user_puzzle[0][0]);
