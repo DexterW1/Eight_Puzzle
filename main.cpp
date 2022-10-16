@@ -139,11 +139,14 @@ int main() {
     cin>>puzzle_mode;
     if(puzzle_mode==1){
         init_default_puzzle();
+        select_and_init_algo();
     }
     if(puzzle_mode==2){
         print_CreateOwn();
         user_input_puzzle();
+        select_and_init_algo();
     }
+
     print_Puzzle(user_puzzle);
 }
 //How to copy array to another
