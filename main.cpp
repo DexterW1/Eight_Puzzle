@@ -2,7 +2,11 @@
 #include "bits/stdc++.h"
 #include <algorithm>
 using namespace std;
+//Global Variables
 const int N=3;
+int user_puzzle[N][N];
+
+//Quick Test puzzles
 int trivial [N][N]= {{1,2,3},
                      {4,5,6},
                      {7,8,0}};
@@ -22,6 +26,10 @@ int doable[N][N]{{0,1,2},
 int oh_boy[N][N]{{8,7,1},
                  {6,0,2},
                  {5,4,3}};
+
+int impossible[N][N]{{8,6,7},
+                 {2,5,4},
+                 {3,0,1}};
 
 int eight_goal_state[N][N]{{1,2,3},
                            {4,5,6},
@@ -54,14 +62,39 @@ void print_Puzzle(int puzzle[N][N]){
         cout<<endl;
     }
 }
+void init_default_puzzle(){
+    int choice;
+    cout<<"You wish to use a default puzzle. Please enter a desired difficulty on a scale from 0 to 5."<<endl;
+    cin>>choice;
+    if(choice == 0){
+        copy(&trivial[0][0],&trivial[0][0]+ N*N,&user_puzzle[0][0]);
+    }
+    else if(choice == 1){
+        copy(&veryEasy[0][0],&veryEasy[0][0]+ N*N,&user_puzzle[0][0]);
+    }
+    else if(choice == 2){
+        copy(&easy[0][0],&easy[0][0]+ N*N,&user_puzzle[0][0]);
+    }
+    else if(choice == 3){
+        copy(&doable[0][0],&doable[0][0]+ N*N,&user_puzzle[0][0]);
+    }
+    else if(choice == 4){
+        copy(&oh_boy[0][0],&oh_boy[0][0]+ N*N,&user_puzzle[0][0]);
+    }
+    else if(choice == 5){
+        copy(&impossible[0][0],&impossible[0][0]+ N*N,&user_puzzle[0][0]);
+    }
+    else{
+        cout<<"Error Not a valid number \n";
+    }
+}
 int main() {
-    int user_puzzle[N][N];
     int puzzle_mode =0;
     string puzzle_row_one, puzzle_row_two,puzzle_row_three;
     print_intro();
     cin>>puzzle_mode;
     if(puzzle_mode==1){
-
+        init_default_puzzle();
     }
     if(puzzle_mode==2){
         print_CreateOwn();
