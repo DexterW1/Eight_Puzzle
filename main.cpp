@@ -1,9 +1,9 @@
 #include <iostream>
 #include "bits/stdc++.h"
 #include <algorithm>
+#include "Node.h"
 using namespace std;
 //Global Variables
-const int N=3;
 int user_puzzle[N][N];
 
 //Quick Test puzzles
@@ -146,8 +146,9 @@ int main() {
         user_input_puzzle();
         select_and_init_algo();
     }
+    Node test(user_puzzle);
+    print_Puzzle(test.nodePuzzle);
 
-    print_Puzzle(user_puzzle);
 }
 //How to copy array to another
 //copy(&trivial[0][0],&trivial[0][0]+ N*N,&user_puzzle[0][0]);
