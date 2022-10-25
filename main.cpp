@@ -3,7 +3,7 @@
 #include "helpfunctions.h"
 using namespace std;
 
-vector<Node> expand(int puzzle[N][N]) {
+vector<Node> expand(int puzzle[N][N],const unordered_map<string,bool>seen) {
     int temp_array[N][N];
     int row, col = 0;
     find_zero(puzzle, row, col);
@@ -15,7 +15,9 @@ vector<Node> expand(int puzzle[N][N]) {
             if (i == 0) {
                 move_up(temp_array);
                 Node temp(temp_array);
-                list.push_back(temp);
+                if(seen.count(temp.current_state)==0){
+                    list.push_back(temp);
+                }
             }
         }
         //down
@@ -23,7 +25,9 @@ vector<Node> expand(int puzzle[N][N]) {
             if (i == 1) {
                 move_down(temp_array);
                 Node temp(temp_array);
-                list.push_back(temp);
+                if(seen.count(temp.current_state)==0){
+                    list.push_back(temp);
+                }
             }
         }
         //left
@@ -31,7 +35,9 @@ vector<Node> expand(int puzzle[N][N]) {
             if (i == 2) {
                 move_left(temp_array);
                 Node temp(temp_array);
-                list.push_back(temp);
+                if(seen.count(temp.current_state)==0){
+                    list.push_back(temp);
+                }
             }
         }
         //right
@@ -39,16 +45,19 @@ vector<Node> expand(int puzzle[N][N]) {
             if (i == 3) {
                 move_right(temp_array);
                 Node temp(temp_array);
-                list.push_back(temp);
+                if(seen.count(temp.current_state)==0){
+                    list.push_back(temp);
+                }
             }
         }
     }
     return list;
 }
-void general_search(){
+void general_search(int puzzle[N][N],int heuristic){
 
 }
 int main() {
+    unordered_map<string,bool> map_test;
     int array[N][N];
     int puzzle_mode = 0;
     vector<Node> list;
@@ -57,15 +66,32 @@ int main() {
     cin >> puzzle_mode;
     if (puzzle_mode == 1) {
         init_default_puzzle();
-        select_and_init_algo();
+        general_search(user_puzzle,select_and_init_algo());
     }
     if (puzzle_mode == 2) {
         print_CreateOwn();
         user_input_puzzle();
-        select_and_init_algo();
+        general_search(user_puzzle,select_and_init_algo());
     }
     Node test(user_puzzle);
     print_Puzzle(test.nodePuzzle);
+
 }
 //How to copy array to another
 //copy(&trivial[0][0],&trivial[0][0]+ N*N,&user_puzzle[0][0]);
+
+//how to insert into list and map
+/*map_test.insert(pair<string,bool>(test.current_state,false));
+list=expand(test.nodePuzzle,map_test);
+for(int i=0;i<list.size();i++){
+    cout<<"i: "<<i<<endl;
+    print_Puzzle(list[i].nodePuzzle);
+    cout<<endl;
+    map_test.insert(pair<string,bool>(list[i].current_state,false));
+}
+list = expand(list[0].nodePuzzle,map_test);
+for(int i=0;i<list.size();i++){
+    cout<<"i: "<<i<<endl;
+    print_Puzzle(list[i].nodePuzzle);
+    cout<<endl;
+}*/
