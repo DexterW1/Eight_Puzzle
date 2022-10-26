@@ -5,6 +5,7 @@
 #define EIGHT_PUZZLE_HELPFUNCTIONS_H
 #include <iostream>
 using namespace std;
+
 const int N=3;
 //Global Variables
 int user_puzzle[N][N];

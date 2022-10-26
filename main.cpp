@@ -1,7 +1,16 @@
 #include <iostream>
+#include <queue>
 #include "Node.h"
 #include "helpfunctions.h"
 using namespace std;
+//https://cplusplus.com/reference/queue/priority_queue/priority_queue/
+//referenced from priority_queue c++
+struct comp{
+    bool operator()(const Node lhs, const Node rhs)const{
+        return (lhs.g_of_n+lhs.h_of_n > rhs.g_of_n+rhs.h_of_n);
+    }
+};
+
 
 vector<Node> expand(int puzzle[N][N],const unordered_map<string,bool>seen) {
     int temp_array[N][N];
@@ -54,6 +63,14 @@ vector<Node> expand(int puzzle[N][N],const unordered_map<string,bool>seen) {
     return list;
 }
 void general_search(int puzzle[N][N],int heuristic){
+    Node head_puzzle(puzzle);
+
+    //https://cplusplus.com/reference/queue/priority_queue/priority_queue/
+    priority_queue<Node,vector<Node>,comp> states;
+    unordered_map<string,bool>seen;
+    unsigned int size = states.size();
+    unsigned int nodes_size =0;
+    states.push(head_puzzle);
 
 }
 int main() {

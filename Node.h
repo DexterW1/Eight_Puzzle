@@ -14,6 +14,7 @@ public:
         depth = 0;
         g_of_n = 0;
         current_state="";
+        parent= nullptr;
     }
     Node(int puzzle[N][N]){
         h_of_n=0;
@@ -21,14 +22,16 @@ public:
         g_of_n=0;
         copyPuzzle(puzzle);
         current_state= change_to_string(puzzle);
+        parent= nullptr;
     }
-    Node operator =(Node &rhs){
-        this->depth=rhs.depth;
-        copy(&this->nodePuzzle[0][0],&this->nodePuzzle[0][0]+ N*N,&rhs.nodePuzzle[0][0]);
-        this->h_of_n=rhs.h_of_n;
-        this->g_of_n=rhs.g_of_n;
-        this->current_state=rhs.current_state;
-
+    Node operator=(const Node &rhs){
+        Node temp;
+        temp.h_of_n=rhs.h_of_n;
+        temp.g_of_n=rhs.g_of_n;
+        temp.depth =rhs.depth;
+        temp.current_state=rhs.current_state;
+        copy(&rhs.nodePuzzle[0][0],&rhs.nodePuzzle[0][0]+N*N,&temp.nodePuzzle[0][0]);
+        return temp;
     }
     int nodePuzzle [N][N];
     Node *parent;
