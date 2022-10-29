@@ -6,56 +6,74 @@ using namespace std;
 //https://cplusplus.com/reference/queue/priority_queue/priority_queue/
 //referenced from priority_queue c++
 struct comp{
-    bool operator()(const Node lhs, const Node rhs)const{
-        return (lhs.g_of_n+lhs.h_of_n > rhs.g_of_n+rhs.h_of_n);
+    bool operator()(const Node& lhs, const Node& rhs) const{
+        return ((lhs.getF_of_N()) > (rhs.getF_of_N()));
     }
 };
 
-
-vector<Node> expand(int puzzle[N][N],const unordered_map<string,bool>seen) {
-    int temp_array[N][N];
+//used an unordered set to improve lookup times of strings worst case O(n) but best case O(1) linear time
+vector<Node> expand(Node& current,unordered_set<string>&seen,int heuristic) {
     int row, col = 0;
-    find_zero(puzzle, row, col);
+    find_zero(current.nodePuzzle, row, col);
     vector<Node> list;
     for (int i = 0; i < 4; i++) {
-        copy(&puzzle[0][0], &puzzle[0][0] + N * N, &temp_array[0][0]);
         //up
         if (row > 0) {
             if (i == 0) {
-                move_up(temp_array);
-                Node temp(temp_array);
+                Node temp(current);
+                temp.move_up();
                 if(seen.count(temp.current_state)==0){
+                    temp.g_of_n++;
+                    temp.depth++;
+                    temp.setF_of_N(heuristic);
+                    current.child_u=&temp;
                     list.push_back(temp);
+                    seen.insert(temp.current_state);
                 }
             }
         }
         //down
         if (row < 2) {
             if (i == 1) {
-                move_down(temp_array);
-                Node temp(temp_array);
+                Node temp(current);
+                temp.move_down();
                 if(seen.count(temp.current_state)==0){
+                    temp.g_of_n++;
+                    temp.depth++;
+                    temp.setF_of_N(heuristic);
+                    current.child_d=&temp;
                     list.push_back(temp);
+                    seen.insert(temp.current_state);
                 }
             }
         }
         //left
         if (col > 0) {
             if (i == 2) {
-                move_left(temp_array);
-                Node temp(temp_array);
+                Node temp(current);
+                temp.move_left();
                 if(seen.count(temp.current_state)==0){
+                    temp.g_of_n++;
+                    temp.depth++;
+                    temp.setF_of_N(heuristic);
+                    current.child_l=&temp;
                     list.push_back(temp);
+                    seen.insert(temp.current_state);
                 }
             }
         }
         //right
         if (col < 2) {
             if (i == 3) {
-                move_right(temp_array);
-                Node temp(temp_array);
+                Node temp(current);
+                temp.move_right();
                 if(seen.count(temp.current_state)==0){
+                    temp.g_of_n++;
+                    temp.depth++;
+                    temp.setF_of_N(heuristic);
+                    current.child_r=&temp;
                     list.push_back(temp);
+                    seen.insert(temp.current_state);
                 }
             }
         }
@@ -64,21 +82,50 @@ vector<Node> expand(int puzzle[N][N],const unordered_map<string,bool>seen) {
 }
 void general_search(int puzzle[N][N],int heuristic){
     Node head_puzzle(puzzle);
-
-    //https://cplusplus.com/reference/queue/priority_queue/priority_queue/
-    priority_queue<Node,vector<Node>,comp> states;
-    unordered_map<string,bool>seen;
-    unsigned int size = states.size();
+    vector<Node>list;
+    bool first = true;
+    priority_queue<Node,vector<Node>,comp> pq;
+    unordered_set<string> seen_before;
+    unsigned int pq_size = pq.size();
     unsigned int nodes_size =0;
-    states.push(head_puzzle);
+    pq.push(head_puzzle);
+    while(!pq.empty()){
+        if(pq.empty()){
+            cout<<"Failure!"<<endl;
+            return;
+        }
+        if(pq_size<pq.size()){
+            pq_size = pq.size();
+        }
+        Node temp = pq.top();
+        pq.pop();
+        if(first){
+            seen_before.insert(temp.current_state);
+            cout<<"Starting Board: "<<endl;
+            first = false;
+        }
+        if(temp.isGoal()){
+            cout<<"Goal State!: "<<endl;
+            print_Puzzle(temp.nodePuzzle);
+            cout<<"Solution depth was: "<<temp.depth<<endl;
+            cout<<"Number of nodes expanded: "<<nodes_size<<endl;
+            cout<<"Max queue size: "<<pq_size<<endl;
+            return;
+        }
+        if(pq_size != 1){
+            cout<<"Best solution to expand with a g(n)= "<<temp.g_of_n<<" and h(n) = "<<temp.h_of_n<<" is..."<<endl;
+        }
+        print_Puzzle(temp.nodePuzzle);
+        list=expand(temp,seen_before,heuristic);
+        for(auto & i : list){
+            pq.push(i);
+        }
+        nodes_size++;
+    }
 
 }
 int main() {
-    unordered_map<string,bool> map_test;
-    int array[N][N];
     int puzzle_mode = 0;
-    vector<Node> list;
-    string puzzle_row_one, puzzle_row_two, puzzle_row_three;
     print_intro();
     cin >> puzzle_mode;
     if (puzzle_mode == 1) {
@@ -90,8 +137,7 @@ int main() {
         user_input_puzzle();
         general_search(user_puzzle,select_and_init_algo());
     }
-    Node test(user_puzzle);
-    print_Puzzle(test.nodePuzzle);
+
 
 }
 //How to copy array to another

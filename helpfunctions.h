@@ -9,35 +9,36 @@ using namespace std;
 const int N=3;
 //Global Variables
 int user_puzzle[N][N];
-
+const string goal_state= "123456780";
 //Quick Test puzzles
-int trivial [N][N]= {{1,2,3},
+const int trivial [N][N]= {{1,2,3},
                      {4,5,6},
                      {7,8,0}};
 
-int veryEasy[N][N]={{1,2,3},
+const int veryEasy[N][N]={{1,2,3},
                     {4,5,6},
                     {7,0,8}};
 
-int easy[N][N]{{1,2,0},
+const int easy[N][N]{{1,2,0},
                {4,5,3},
                {7,8,6}};
 
-int doable[N][N]{{0,1,2},
+const int doable[N][N]{{0,1,2},
                  {4,5,3},
                  {7,8,6}};
 
-int oh_boy[N][N]{{8,7,1},
+const int oh_boy[N][N]{{8,7,1},
                  {6,0,2},
                  {5,4,3}};
 
-int impossible[N][N]{{8,6,7},
+const int impossible[N][N]{{8,6,7},
                      {2,5,4},
                      {3,0,1}};
 
-int eight_goal_state[N][N]{{1,2,3},
+const int eight_goal_state[N][N]{{1,2,3},
                            {4,5,6},
                            {7,8,0}};
+
 //=============================== Helper Functions ==================================================
 void print_intro(){
     cout<<"Welcome to my 8-Puzzle Solver. Type '1'to use a default puzzle, or '2' to create your own."<<endl;
@@ -141,7 +142,7 @@ bool find_zero(int puzzle[N][N],int& row, int& col){
     return false;
 }
 
-void move_up(int puzzle[N][N]) {
+/*void move_up(int puzzle[N][N]) {
     int array[N][N];
     int i, j = 0;
     find_zero(puzzle, i, j);
@@ -161,6 +162,7 @@ void move_right(int puzzle[N][N]){
     int i,j=0;
     find_zero(puzzle,i,j);
     swap(puzzle[i][j],puzzle[i][j+1]);
-}
+}*/
+
 
 #endif //EIGHT_PUZZLE_HELPFUNCTIONS_H
