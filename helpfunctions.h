@@ -142,27 +142,6 @@ bool find_zero(int puzzle[N][N],int& row, int& col){
     return false;
 }
 
-/*void move_up(int puzzle[N][N]) {
-    int array[N][N];
-    int i, j = 0;
-    find_zero(puzzle, i, j);
-    swap(puzzle[i][j], puzzle[i - 1][j]);
-}
-void move_down(int puzzle[N][N]){
-    int i,j=0;
-    find_zero(puzzle,i,j);
-    swap(puzzle[i][j],puzzle[i+1][j]);
-}
-void move_left(int puzzle[N][N]){
-    int i,j=0;
-    find_zero(puzzle,i,j);
-    swap(puzzle[i][j],puzzle[i][j-1]);
-}
-void move_right(int puzzle[N][N]){
-    int i,j=0;
-    find_zero(puzzle,i,j);
-    swap(puzzle[i][j],puzzle[i][j+1]);
-}*/
 
 
 #endif //EIGHT_PUZZLE_HELPFUNCTIONS_H

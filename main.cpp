@@ -2,6 +2,7 @@
 #include <queue>
 #include "Node.h"
 #include "helpfunctions.h"
+#include <chrono>
 using namespace std;
 //https://cplusplus.com/reference/queue/priority_queue/priority_queue/
 //referenced from priority_queue c++
@@ -81,12 +82,15 @@ vector<Node> expand(Node& current,unordered_set<string>&seen,int heuristic) {
     return list;
 }
 void general_search(int puzzle[N][N],int heuristic){
+    //make head node
+    auto start = chrono::steady_clock::now();
     Node head_puzzle(puzzle);
     vector<Node>list;
     bool first = true;
+    //make queue
     priority_queue<Node,vector<Node>,comp> pq;
     unordered_set<string> seen_before;
-    unsigned int pq_size = pq.size();
+    unsigned int pq_size = pq.size(); //max pq size
     unsigned int nodes_size =0;
     pq.push(head_puzzle);
     while(!pq.empty()){
@@ -94,9 +98,7 @@ void general_search(int puzzle[N][N],int heuristic){
             cout<<"Failure!"<<endl;
             return;
         }
-        if(pq_size<pq.size()){
-            pq_size = pq.size();
-        }
+        pq_size<pq.size() ? pq_size=pq.size() : pq_size;
         Node temp = pq.top();
         pq.pop();
         if(first){
@@ -105,14 +107,16 @@ void general_search(int puzzle[N][N],int heuristic){
             first = false;
         }
         if(temp.isGoal()){
+            auto end = chrono::steady_clock::now();
             cout<<"Goal State!: "<<endl;
             print_Puzzle(temp.nodePuzzle);
             cout<<"Solution depth was: "<<temp.depth<<endl;
             cout<<"Number of nodes expanded: "<<nodes_size<<endl;
             cout<<"Max queue size: "<<pq_size<<endl;
+            cout<<"Elapsed Time in seconds: "<<chrono::duration_cast<chrono::seconds>(end-start).count()<<endl;
             return;
         }
-        if(pq_size != 1){
+        if(pq_size > 1){
             cout<<"Best solution to expand with a g(n)= "<<temp.g_of_n<<" and h(n) = "<<temp.h_of_n<<" is..."<<endl;
         }
         print_Puzzle(temp.nodePuzzle);
@@ -140,21 +144,3 @@ int main() {
 
 
 }
-//How to copy array to another
-//copy(&trivial[0][0],&trivial[0][0]+ N*N,&user_puzzle[0][0]);
-
-//how to insert into list and map
-/*map_test.insert(pair<string,bool>(test.current_state,false));
-list=expand(test.nodePuzzle,map_test);
-for(int i=0;i<list.size();i++){
-    cout<<"i: "<<i<<endl;
-    print_Puzzle(list[i].nodePuzzle);
-    cout<<endl;
-    map_test.insert(pair<string,bool>(list[i].current_state,false));
-}
-list = expand(list[0].nodePuzzle,map_test);
-for(int i=0;i<list.size();i++){
-    cout<<"i: "<<i<<endl;
-    print_Puzzle(list[i].nodePuzzle);
-    cout<<endl;
-}*/

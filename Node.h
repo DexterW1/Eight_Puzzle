@@ -25,10 +25,10 @@ public:
         this->g_of_n=prev->g_of_n;
         copyPuzzle(prev->nodePuzzle);
         this->current_state= prev->current_state;
-        this->child_u= prev->child_u;
-        this->child_d= prev->child_d;
-        this->child_l= prev->child_l;
-        this->child_r= prev->child_r;
+        this->child_u= nullptr;
+        this->child_d= nullptr;
+        this->child_l= nullptr;
+        this->child_r= nullptr;
     }
     explicit Node(int puzzle [N][N]){
         this->h_of_n=0;
@@ -85,6 +85,9 @@ public:
         else if(heuristic==2){
             this->h_of_n=misplaced();
         }
+        else if(heuristic==3){
+            this->h_of_n=manhattan_distance();
+        }
     }
     int misplaced(){
         int total_count=0;
@@ -92,6 +95,36 @@ public:
             if((this->current_state[i] != goal_state[i]) && this->current_state[i]!=0){
                 total_count++;
             }
+        }
+        return total_count;
+    }
+    int manhattan_distance(){
+        int total_count=0;
+        int cur_r,cur_c=0;
+        int goal_r,goal_c=0;
+        bool node_set = false;
+        bool goal_set = false;
+        for(int num = 1; num<this->current_state.size();num++) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    if(this->nodePuzzle[i][j]==num){
+                        cur_r=i;
+                        cur_c=j;
+                        node_set=true;
+                    }
+                    if(eight_goal_state[i][j]==num){
+                        goal_r=i;
+                        goal_c=j;
+                        goal_set=true;
+                    }
+                    if(goal_set && node_set){
+                        break;
+                    }
+                }
+            }
+            node_set=false;
+            goal_set=false;
+            total_count +=(abs(goal_r-cur_r)+abs(goal_c-cur_c));
         }
         return total_count;
     }
@@ -119,6 +152,9 @@ public:
         find_zero(this->nodePuzzle,i,j);
         swap(this->nodePuzzle[i][j],this->nodePuzzle[i][j+1]);
         this->current_state= change_to_string(this->nodePuzzle);
+    }
+    void printOptimalPath(){
+
     }
 
 };
