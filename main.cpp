@@ -17,19 +17,24 @@ vector<Node> expand(Node& current,unordered_set<string>&seen,int heuristic) {
     int row, col = 0;
     find_zero(current.nodePuzzle, row, col);
     vector<Node> list;
+    //for each possible move (up to 4) check to see if we can up,down,left,right if we can
+    //create a new node and push it into the list.
     for (int i = 0; i < 4; i++) {
         //up
         if (row > 0) {
             if (i == 0) {
+                //create a new node of the current Node that was passed in.
                 Node temp(current);
+                //Move it up
                 temp.move_up();
+                //Check to see if it is a duplicate or not, if not then increase the depth and set g(n) and f(n)
                 if(seen.count(temp.current_state)==0){
                     temp.g_of_n++;
                     temp.depth++;
                     temp.setF_of_N(heuristic);
                     current.child_u=&temp;
-                    list.push_back(temp);
-                    seen.insert(temp.current_state);
+                    list.push_back(temp);                   //insert into return list
+                    seen.insert(temp.current_state);    //insert it into the seen list
                 }
             }
         }
