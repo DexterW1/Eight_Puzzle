@@ -1,5 +1,3 @@
 # Eight Puzzle Solver
 
-##Introduction
-
-##
+### Introduction
