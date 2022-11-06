@@ -1,2 +1,5 @@
-# Eight_Puzzle
-Eight Puzzle CS170
+# Eight Puzzle Solver
+
+##Introduction
+
+##
